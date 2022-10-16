@@ -49,6 +49,12 @@ public class GameManager : MonoBehaviour
             point = point * 2;
         }
     }
+    void moveLight()
+    {
+        light.transform.Rotate(new Vector3(-3, 0, 0) * Time.deltaTime);
+    }
+
+
     private void Start()
     {
         timerText = GameObject.Find("Time");
@@ -58,39 +64,38 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        float starttime = 90;
-        float endtime = 30;
-        float dirtime = starttime / endtime;
+
         time -= Time.deltaTime;
 
         if (this.time < 0)
         {
             this.time = 0;
             this.generator.GetComponent<itemGenerator>().SetParameter(10000.0f, 0, 0);
-            light.transform.Rotate(new Vector3(0, 0, 0) * Time.deltaTime);
+            
         }
         else if (0 <= this.time && this.time < 5)
         {
             this.generator.GetComponent<itemGenerator>().SetParameter(0.9f, -0.02f, 3);
-            light.transform.Rotate(new Vector3(-dirtime, 0, 0) * Time.deltaTime);
         }
         else if (5 <= this.time && this.time < 10)
         {
             this.generator.GetComponent<itemGenerator>().SetParameter(0.4f, -0.018f, 6);
-            light.transform.Rotate(new Vector3(-dirtime, 0, 0) * Time.deltaTime);
         }
         else if (10 <= this.time && this.time < 20)
         {
             this.generator.GetComponent<itemGenerator>().SetParameter(0.7f, -0.015f, 4);
-            light.transform.Rotate(new Vector3(-dirtime, 0, 0) * Time.deltaTime);
         }
         else if (20 <= this.time && this.time < 30)
         {
             this.generator.GetComponent<itemGenerator>().SetParameter(1.0f, -0.01f, 2);
-            light.transform.Rotate(new Vector3(-dirtime, 0, 0) * Time.deltaTime);
         }
         timerText.GetComponent<TextMeshProUGUI>().text = time.ToString("F1");
         pointText.GetComponent<TMP_Text>().text = point.ToString() + "Point";
+        if (this.time < 30 && this.time > 0)
+        {
+            moveLight();
+        }
+
         if (point < 0)
         {
             isDropApple = true;

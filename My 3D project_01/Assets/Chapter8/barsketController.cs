@@ -28,6 +28,7 @@ public class barsketController : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         
@@ -35,8 +36,7 @@ public class barsketController : MonoBehaviour
         {
             GameManager.instance.GetApple();
             audio.PlayOneShot(appleSE);
-            float particleY = GetComponent<ParticleSystem>().shape.position.y;
-            particleY = -3;
+
         }
 
         if (other.transform.tag == "bomb")
