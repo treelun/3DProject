@@ -33,14 +33,28 @@ public class barsketController : MonoBehaviour
         
         if (other.transform.tag == "apple")
         {
+            GameManager.instance.GetApple();
             audio.PlayOneShot(appleSE);
-            Debug.Log("apple擠學營儅");
+            float particleY = GetComponent<ParticleSystem>().shape.position.y;
+            particleY = -3;
         }
 
         if (other.transform.tag == "bomb")
         {
+            if (GameManager.instance.isDropApple == false)
+            {
+                GameManager.instance.Getbomb();
+            }
+           
+            if (GameManager.instance.isDropApple == true)
+            {
+                GameManager.instance.Dropbomb();
+                GameManager.instance.isDropApple = false;
+            }
+            
+           
+            
             audio.PlayOneShot(bombSE);
-            Debug.Log("bomb擠學營儅");
         }
         Destroy(other.gameObject);
     }

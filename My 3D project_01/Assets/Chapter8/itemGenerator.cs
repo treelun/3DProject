@@ -9,8 +9,8 @@ public class itemGenerator : MonoBehaviour
     float span = 1.0f;
     float delta = 0;
     int ratio = 2;
-    float speed = -0.03f;
-
+    float speed = -0.01f;
+    
     public void SetParameter(float span, float speed, int ratio)
     {
         this.span = span;
@@ -39,6 +39,8 @@ public class itemGenerator : MonoBehaviour
             float z = Random.Range(-1, 2);
             item.transform.position = new Vector3(x, 4, z);
             item.GetComponent<itemController>().dropSpeed = this.speed;
+
         }
+        
     }
 }
