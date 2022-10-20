@@ -17,6 +17,8 @@ public class EyePosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //카메라가 있을곳의 오브젝트 좌표는 캐릭터를 따라 다닐것으므로
+        //캐릭터의 x와 z의 값을 대입해줌
         eyeposX = charator.transform.position.x;
         eyeposZ = charator.transform.position.z;
 

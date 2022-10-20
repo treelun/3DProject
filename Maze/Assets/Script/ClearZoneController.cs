@@ -24,14 +24,14 @@ public class ClearZoneController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        //골인지점에 캐릭터가 도착하면
         if (collision.transform.tag == "Charator")
         {
-            Debug.Log("캐릭터 옴");
+            //파티클 스타트 조명 끔
             particle.GetComponent<ParticleSystem>().Play();
             particle1.GetComponent<ParticleSystem>().Play();
             light.SetActive(false);
 
-            
         }
     }
 }
