@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BulletSpwanerController : MonoBehaviour
 {
-    bool isFire = false;
     [SerializeField] GameObject bulletPerfab;
     float timeAfterSpawn;
     public float spawncountMax = 3f;
