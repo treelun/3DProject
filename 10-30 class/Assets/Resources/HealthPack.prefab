@@ -94,9 +94,7 @@ GameObject:
   - component: {fileID: 4607950341564650}
   - component: {fileID: 135478876175241966}
   - component: {fileID: 108751749025666960}
-  - component: {fileID: 114062947082545464}
-  - component: {fileID: 114435103929562082}
-  - component: {fileID: -7512049062642762470}
+  - component: {fileID: 1593409434082759834}
   m_Layer: 0
   m_Name: HealthPack
   m_TagString: Untagged
@@ -195,20 +193,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114062947082545464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838412652947266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff95fa9bf920c4865be8f3673b77e5a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 60
---- !u!114 &114435103929562082
+--- !u!114 &1593409434082759834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,26 +205,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56df96b0d8b224ce7a07291ff4720bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 30
---- !u!114 &-7512049062642762470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838412652947266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  health: 50
