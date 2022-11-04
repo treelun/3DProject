@@ -10,10 +10,12 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
 
     float gravity = -9.8f;
+    bool isRun = false;
     // Start is called before the first frame update
     void Start()
     {
         character = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -39,6 +41,17 @@ public class PlayerMove : MonoBehaviour
         movement = transform.TransformDirection(movement);
         character.Move(movement * Time.deltaTime);
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rotateSpeed, 0f, Space.World);
+        if (deltaX != 0)
+        {
+            Debug.Log("deltaX : " + deltaX);
+            animator.SetFloat("Strafe", deltaX);
+        }
+        if (deltaZ != 0)
+        {
+            Debug.Log("deltaX : " + deltaZ);
+            animator.SetFloat("Run", deltaZ);
+        }
+
     }
 
 }
