@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    [SerializeField] GameObject[] enemyPrefab;
-
+    [SerializeField] GameObject enemyPrefab;
+    GameObject enemy;
     public Transform target;
     float delta;
     // Start is called before the first frame update
@@ -16,12 +16,18 @@ public class SpawnPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        delta += Time.deltaTime;
-        if (delta > 2f)
+        if (enemy == null)
         {
-            GameObject enemy = Instantiate(enemyPrefab[0], transform.position, transform.rotation);
-            
-            delta = 0;
+            CreateEnemy();
         }
+        
     }
+
+    void CreateEnemy()
+    {
+        enemy 
+         = Instantiate(enemyPrefab, transform.position, transform.rotation);
+    }
+
+
 }

@@ -3,44 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : Enemy
 {
-    GameObject endPoint;
+    public float velocity;
+    public float accelaration;
+    Animator anima;
 
     // Start is called before the first frame update
     void Start()
     {
-        endPoint = GameObject.Find("EndPoint");
+        anima = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveToTarget();
+        if (target != null)
+        {
+            MoveToTarget();
+            //anima.SetBool("isWalk", isWalk);
+        }
+        anima.SetBool("isWalk", isWalk);
+
+
+
+
+
     }
 
     void MoveToTarget()
     {
-        NavMeshAgent nav = GetComponent<NavMeshAgent>();
-        nav.destination = endPoint.transform.position;
+        transform.position = Vector3.MoveTowards(transform.position, target.position, velocity * Time.deltaTime);
+        transform.LookAt(target);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-       
-        if (other.transform.tag == "EndPoint")
-        {
-            Debug.Log("끝 도착");
-            Destroy(gameObject);
-        }
-    }
 
-    void MoveToEnd()
-    {
-        //목적지로 등속이동(포지션,목적지의 포지션,속도)
-        transform.position = Vector3.MoveTowards(gameObject.transform.position, endPoint.transform.position, 0.01f);
-        //계속 목표를 바라보게함
-        transform.LookAt(endPoint.transform);
-    }
 
 }

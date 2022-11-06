@@ -43,12 +43,10 @@ public class PlayerMove : MonoBehaviour
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rotateSpeed, 0f, Space.World);
         if (deltaX != 0)
         {
-            Debug.Log("deltaX : " + deltaX);
             animator.SetFloat("Strafe", deltaX);
         }
         if (deltaZ != 0)
         {
-            Debug.Log("deltaX : " + deltaZ);
             animator.SetFloat("Run", deltaZ);
         }
 
