@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraController : MonoBehaviour
 {
     float CameraRotateX;
 
     float rotateMaximum = 45f;
     float rotateMinimum = -45f;
+
+
 
     void Update()
     {
@@ -17,5 +20,7 @@ public class CameraController : MonoBehaviour
         float rotationY = transform.localEulerAngles.y;
 
         transform.localEulerAngles = new Vector3(CameraRotateX, rotationY, 0);
+
+        
     }
 }

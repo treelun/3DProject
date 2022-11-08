@@ -7,28 +7,31 @@ public class EnemyController : Enemy
 {
     public float velocity;
     public float accelaration;
-    Animator anima;
 
+
+    Animator anima;
+    EnemyAttackArea area;
     // Start is called before the first frame update
     void Start()
     {
         anima = GetComponent<Animator>();
+        area = GetComponentInChildren<EnemyAttackArea>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target != null)
+        if (target != null && !area.isAttack)
         {
+            Debug.Log("¿òÁ÷¿©");
             MoveToTarget();
-            //anima.SetBool("isWalk", isWalk);
         }
+        else if (target != null && area.isAttack)
+        {
+            StopMove();
+        }
+       
         anima.SetBool("isWalk", isWalk);
-
-
-
-
-
     }
 
     void MoveToTarget()
@@ -36,7 +39,9 @@ public class EnemyController : Enemy
         transform.position = Vector3.MoveTowards(transform.position, target.position, velocity * Time.deltaTime);
         transform.LookAt(target);
     }
-
-
+    void StopMove()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target.position, 0 * Time.deltaTime);
+    }
 
 }

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackArea : MonoBehaviour
+public class EnemyAttackArea : Enemy
 {
     Animator anima;
-    bool isAttack = false;
+    public bool isAttack = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +24,7 @@ public class EnemyAttackArea : MonoBehaviour
         {
             Debug.Log("target 공격");
             isAttack = true;
+            
         }
     }
     private void OnTriggerExit(Collider other)
@@ -32,6 +33,7 @@ public class EnemyAttackArea : MonoBehaviour
         {
             Debug.Log("target 공격범위 빠져나감");
             isAttack = false;
+            target = other.transform;
         }
     }
 }
