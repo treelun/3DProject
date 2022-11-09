@@ -23,25 +23,23 @@ public class PlayerMove : CharaterData
     bool JumpButton;
     bool AttackButton;
     bool isJump;
+    bool isDodge;
     private void Awake()
     {
         Weapon = GetComponentInChildren<Weapon>();
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         weaponData = GetComponentInChildren<ScriptAble>().weaponData;
-
-
     }
 
     private void FixedUpdate()
     {
         GetInput();
-            playerMove();
-            Jump();
-      
-            Attack();
+        playerMove();
+        Jump();
+        Dodge();
+        Attack();
         SpinAttack();
-
 
     }
     void GetInput()
@@ -58,7 +56,7 @@ public class PlayerMove : CharaterData
         movement = new Vector3(deltaX, 0f, deltaZ).normalized;
 
         movement = transform.TransformDirection(movement);
-        if (!isAttackReady)
+        if (!isAttackReady || isDodge)
         {
             movement = Vector3.zero;
         }
@@ -67,18 +65,15 @@ public class PlayerMove : CharaterData
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rotateSpeed, 0f, Space.World);
         if (deltaX != 0)
         {
-            animator.SetFloat("Strafe", deltaX);
+            animator.SetFloat("Vertical", deltaX);
         }
         if (deltaZ != 0)
         {
-            animator.SetFloat("Run", deltaZ);
+            animator.SetFloat("Horizontal", deltaZ);
         }
 
-        //rigid.AddForce(Vector3.down * gravity * Time.deltaTime);
         transform.position += movement * moveSpeed * Time.deltaTime;
-        //character.Move(movement * Time.deltaTime);
-        
-
+  
     }
     void Jump()
     {
@@ -89,6 +84,20 @@ public class PlayerMove : CharaterData
             isJump = true;
             animator.SetTrigger("JumpTrigger");
         }
+    }
+    void Dodge()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isJump && movement != Vector3.zero)
+        {
+            animator.SetTrigger("dodgeleft");
+            isDodge = true;
+
+            Invoke("DodgeOut", 1f);
+        }
+    }
+    void DodgeOut()
+    {
+        isDodge = false;
     }
 
     public void Attack()
@@ -105,7 +114,6 @@ public class PlayerMove : CharaterData
 
         }
 
-       
     }
     void SpinAttack()
     {
