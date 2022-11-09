@@ -5,13 +5,15 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     WeaponData weapon;
-
+    AudioSource audio;
 
     public BoxCollider AttackArea;
     private void Start()
     {
         weapon = GetComponent<ScriptAble>().weaponData;
-        
+        audio = GetComponent<AudioSource>();
+
+
     }
     private void OnTriggerExit(Collider other)
     {
@@ -30,9 +32,11 @@ public class Weapon : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         AttackArea.enabled = true;
+        audio.Play();
 
         yield return new WaitForSeconds(0.2f);
         AttackArea.enabled = false;
+        audio.Stop();
 
     }
 }
