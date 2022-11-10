@@ -7,11 +7,7 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] GameObject enemyPrefab;
     GameObject enemy;
     public Transform target;
-    float delta;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+
 
     // Update is called once per frame
     void Update()

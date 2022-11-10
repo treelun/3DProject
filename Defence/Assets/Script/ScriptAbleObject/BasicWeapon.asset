@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f675cb94b97ace4b8b473bbc214a530, type: 3}
   m_Name: BasicWeapon
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 10
   attackSpeed: 1

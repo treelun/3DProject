@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : CharaterData
+public class PlayerMove : Status
 {
     public float moveSpeed = 8f;
     public float rotateSpeed = 5f;
@@ -11,25 +11,33 @@ public class PlayerMove : CharaterData
     Animator animator;
     Weapon Weapon;
     WeaponData weaponData;
-    Vector3 movement;
 
-    float gravity = 9.8f;
+    public CharaterData player;
+
+    public AudioSource RightWalkAudio;
+    public AudioSource LeftWalkAudio;
+    public AudioSource dodge;
+
+    Vector3 movement;
 
     float deltaX;
     float deltaZ;
     float AttackDelay;
+    public float Hitpoint;
 
-    bool isAttackReady = true;
     bool JumpButton;
     bool AttackButton;
+
     bool isJump;
     bool isDodge;
+    bool isAttackReady = true;
+    public bool ishit;
     private void Awake()
     {
-        Weapon = GetComponentInChildren<Weapon>();
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
-        weaponData = GetComponentInChildren<ScriptAble>().weaponData;
+        Weapon = GetComponentInChildren<Weapon>();
+        weaponData = GetComponentInChildren<WeaponScriptAble>().weaponData;
     }
 
     private void FixedUpdate()
@@ -39,7 +47,6 @@ public class PlayerMove : CharaterData
         Jump();
         Dodge();
         Attack();
-        SpinAttack();
 
     }
     void GetInput()
@@ -48,15 +55,16 @@ public class PlayerMove : CharaterData
         deltaX = Input.GetAxis("Horizontal");
         deltaZ = Input.GetAxis("Vertical");
         AttackButton = Input.GetMouseButtonDown(0);
+
     }
 
     void playerMove()
     {
 
-        movement = new Vector3(deltaX, 0f, deltaZ).normalized;
+        movement = new Vector3(deltaX, 0f, deltaZ);
 
         movement = transform.TransformDirection(movement);
-        if (!isAttackReady || isDodge)
+        if (!isAttackReady || isDodge || ishit)
         {
             movement = Vector3.zero;
         }
@@ -66,12 +74,14 @@ public class PlayerMove : CharaterData
         if (deltaX != 0)
         {
             animator.SetFloat("Vertical", deltaX);
+           
         }
         if (deltaZ != 0)
         {
             animator.SetFloat("Horizontal", deltaZ);
         }
 
+        
         transform.position += movement * moveSpeed * Time.deltaTime;
   
     }
@@ -91,8 +101,8 @@ public class PlayerMove : CharaterData
         {
             animator.SetTrigger("dodgeleft");
             isDodge = true;
-
-            Invoke("DodgeOut", 1f);
+            dodge.Play();
+            Invoke("DodgeOut", 0.5f);
         }
     }
     void DodgeOut()
@@ -105,13 +115,13 @@ public class PlayerMove : CharaterData
         AttackDelay += Time.deltaTime;
 
         isAttackReady = weaponData.attackSpeed < AttackDelay;
-        if (AttackButton && isAttackReady)
+        if (AttackButton && isAttackReady && !ishit)
         {
             animator.SetTrigger("AttackTrigger");
-            //Cursor.lockState = CursorLockMode.Locked;
             Weapon.MeleeAttack();
             AttackDelay = 0;
-
+            RightWalkAudio.Stop();
+            LeftWalkAudio.Stop();
         }
 
     }
@@ -127,12 +137,50 @@ public class PlayerMove : CharaterData
             AttackDelay = 0;
         }
     }
+    void KillCharacter()
+    {
+        Destroy(gameObject);
+    }
+    public void ResetCharacter()
+    {
+        player.startingHp = startHp;
+    }
+    private void OnEnable()
+    {
+        ResetCharacter();
+    }
+
+    public void DamageCharacter(float damage)
+    {
+
+        player.startingHp -= damage;
+        animator.SetTrigger("hitMotion");
+        DamagedOut();
+        if (player.startingHp <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
+        {
+            KillCharacter();
+        }
+        
+    }
+    IEnumerator playerHit()
+    {
+        yield return new WaitForSeconds(0.2f);
+        ishit = true;
+
+        yield return new WaitForSeconds(0.2f);
+        ishit = false;
+    }
+    void DamagedOut()
+    {
+        StopCoroutine(playerHit());
+        StartCoroutine(playerHit());
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Ground")
         {
-            Debug.Log("땅에닿음");
             isJump = false;
         }
     }

@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttack : Enemy
+public class EnemyAttack : MonoBehaviour
 {
-    float targetHp;
-
+    public float attackDamage;
     private void OnTriggerExit(Collider other)
     {
         if (other.transform.tag == "Player")
         {
-            targetHp = other.GetComponent<PlayerMove>().Hp;
-            Debug.Log(targetHp);
+            PlayerMove player = other.GetComponent<PlayerMove>();
+            
+            player.DamageCharacter(attackDamage);
+            
+            Debug.Log("플레이어 공격~!" + attackDamage);
         }
     }
 }

@@ -5,17 +5,20 @@ using UnityEngine;
 public class EnemyAttackArea : Enemy
 {
     Animator anima;
-    AudioSource audio;
-    public bool isAttack = false;
+
+    public BoxCollider AttackArea;
+    
+    AudioSource audiosource;
 
     bool attackReady;
-    float AttackSpeed = 2;
+    float AttackSpeed = 3f;
     float AttackDelay;
+    public bool isAttack;
     // Start is called before the first frame update
     void Start()
     {
         anima = GetComponentInParent<Animator>();
-        audio = GetComponentInParent<AudioSource>();
+        audiosource = GetComponentInParent<AudioSource>();
     }
     private void FixedUpdate()
     {
@@ -24,18 +27,19 @@ public class EnemyAttackArea : Enemy
 
     private void OnTriggerStay(Collider other)
     {
-        
-
         attackReady = AttackSpeed < AttackDelay;
         if (other.transform.tag == "Player")
         {
+            
             Debug.Log("target АјАн");
-            isAttack = true;
-            if (attackReady)
+            
+            if (attackReady && !other.GetComponentInChildren<Weapon>().isHit && !isDeath)
             {
+                MeleeAttack();
                 anima.SetTrigger("Attrigger");
-                audio.Play();
                 AttackDelay = 0;
+                audiosource.Play();
+                isAttack = true;
             }
 
         }
@@ -49,5 +53,37 @@ public class EnemyAttackArea : Enemy
             isAttack = false;
             target = other.transform;
         }
+    }
+
+
+    public void MeleeAttack()
+    {
+        StopCoroutine(Attack());
+        StartCoroutine(Attack());
+    }
+
+    public void controlWalk()
+    {
+        StopCoroutine(StopWalk());
+        StartCoroutine(StopWalk());
+    }
+    IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(0.2f);
+        AttackArea.enabled = true;
+        
+
+        yield return new WaitForSeconds(0.2f);
+        AttackArea.enabled = false;
+
+
+    }
+    IEnumerator StopWalk()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isAttack = true;
+
+        yield return new WaitForSeconds(2f);
+        isAttack = false;
     }
 }

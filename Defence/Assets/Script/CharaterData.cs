@@ -2,23 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharaterData : MonoBehaviour
+[CreateAssetMenu(menuName = "Scriptalbe/CharaterData", fileName = "CharaterData")]
+public class CharaterData : ScriptableObject
 {
     //공격 파워
     public float AttackPower;
     //체력
-    public int Hp;
+    public float startingHp;
     //마나 or 정신력
-    public int Mp;
+    public float startingMp;
     //지구력
-    public float Stamina;
+    public float startingStamina;
 
-    //힘
-    int Str;
-    //체력
-    int Helth;
-    //지능
-    int intelligence;
-    //민첩
-    int Agi;
 }

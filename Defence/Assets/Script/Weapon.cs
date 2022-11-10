@@ -5,24 +5,33 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     WeaponData weapon;
-    AudioSource audio;
+    AudioSource audiosouce;
 
     public BoxCollider AttackArea;
+    public bool isHit;
+    float delta;
     private void Start()
     {
-        weapon = GetComponent<ScriptAble>().weaponData;
-        audio = GetComponent<AudioSource>();
-
-
+        weapon = GetComponent<WeaponScriptAble>().weaponData;
+        audiosouce = GetComponent<AudioSource>();
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.transform.tag == "Enemy")
         {
-            Debug.Log("적 타격 : " + weapon.damage);
-
+            EnemyController enemy = other.GetComponent<EnemyController>();
+            Animator enemyani = other.GetComponent<Animator>();
+            enemy.DamageCharacter(weapon.damage);
+            enemyani.SetTrigger("hitMotion");
+            if (enemy.Hitpoint <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
+            {
+                enemyani.SetTrigger("death");
+            }
         }
+
     }
+
     public void MeleeAttack()
     {
         StopCoroutine(Attack());
@@ -32,11 +41,14 @@ public class Weapon : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         AttackArea.enabled = true;
-        audio.Play();
+        isHit = true;
+        audiosouce.Play();
 
         yield return new WaitForSeconds(0.2f);
         AttackArea.enabled = false;
-        audio.Stop();
+        isHit = false;
+        audiosouce.Stop();
 
     }
+
 }

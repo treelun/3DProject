@@ -1,19 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public RectTransform Hp;
-    public RectTransform Mp;
-    public RectTransform Sta;
+    public CharaterData playerData;
+    [SerializeField] Slider HpBar;
+    [SerializeField] Slider MpBar;
+    [SerializeField] Slider StaBar;
 
-    public GameObject playerData;
+    public PlayerMove character;
 
-    private void FixedUpdate()
+
+    float maxHp;
+    float startHp;
+
+    float maxMp;
+    float startMp;
+    
+    float maxSta;
+    float startSta;
+
+
+    private void Start()
     {
-        Hp.sizeDelta = new Vector2(playerData.GetComponent<PlayerMove>().Hp, 30);
-        Mp.sizeDelta = new Vector2(playerData.GetComponent<PlayerMove>().Mp, 30);
-        Sta.sizeDelta = new Vector2(playerData.GetComponent<PlayerMove>().Stamina, 30);
+        maxHp = character.maxHp;
     }
+
+    private void Update()
+    {
+        HpBar.value = playerData.startingHp / maxHp;
+    }
+
 }
