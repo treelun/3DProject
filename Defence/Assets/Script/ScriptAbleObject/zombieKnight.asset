@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: zombieKnight
   m_EditorClassIdentifier: 
   AttackPower: 0
-  MaxHp: 100
   startingHp: 100
-  MaxMp: 0
   startingMp: 0
-  MaxStamina: 0
   startingStamina: 0

@@ -24,6 +24,8 @@ public class PlayerMove : Status
     float deltaZ;
     float AttackDelay;
     public float Hitpoint;
+    float attackCount;
+    float attackTimeReset;
 
     bool JumpButton;
     bool AttackButton;
@@ -115,28 +117,41 @@ public class PlayerMove : Status
         AttackDelay += Time.deltaTime;
 
         isAttackReady = weaponData.attackSpeed < AttackDelay;
+
+        attackTimeReset += Time.deltaTime;
         if (AttackButton && isAttackReady && !ishit)
         {
             animator.SetTrigger("AttackTrigger");
-            Weapon.MeleeAttack();
+
+            animator.SetFloat("AttackFloat", attackCount);
+
+            attackCount++;
+            
+            //실질적인 공격실행 메서드
+            Weapon.PlayerMeleeAttack();
             AttackDelay = 0;
+            attackTimeReset = 0;
+
+            //걷는사운드
             RightWalkAudio.Stop();
             LeftWalkAudio.Stop();
+            
+           
+            if (attackCount > 2)
+            {
+                attackCount = 0;
+            }
+
         }
-
-    }
-    void SpinAttack()
-    {
-        AttackDelay += Time.deltaTime;
-        isAttackReady = weaponData.attackSpeed + 2 < AttackDelay;
-
-        if (Input.GetMouseButtonDown(1) && isAttackReady)
+        //일정시간동안 공격하지않으면 공격모션을 첫번째로 돌려줌
+        if (attackTimeReset > 2 && isAttackReady)
         {
-            animator.SetTrigger("Attack2Trigger");
-            Weapon.MeleeAttack();
-            AttackDelay = 0;
+            attackCount = 0;
+            attackTimeReset = 0;
         }
+
     }
+   
     void KillCharacter()
     {
         Destroy(gameObject);

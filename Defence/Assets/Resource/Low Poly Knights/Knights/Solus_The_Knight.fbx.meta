@@ -1146,9 +1146,9 @@ ModelImporter:
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
-      heightFromFeet: 1
+      heightFromFeet: 0
       mirror: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -1348,6 +1348,8 @@ ModelImporter:
   referencedClips:
   - a8a714248d34a6343b5a606a28194599
   - a0e7339aecce9a440be43742869d3a69
+  - b60142e315ed30a4b9cdfca096006940
+  - 6e4e67f62ba55a74c987a49d4da90da1
   importAnimation: 1
   humanDescription:
     serializedVersion: 3

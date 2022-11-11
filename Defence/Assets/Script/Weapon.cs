@@ -15,38 +15,45 @@ public class Weapon : MonoBehaviour
         weapon = GetComponent<WeaponScriptAble>().weaponData;
         audiosouce = GetComponent<AudioSource>();
     }
-
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Enemy")
         {
             EnemyController enemy = other.GetComponent<EnemyController>();
             Animator enemyani = other.GetComponent<Animator>();
             enemy.DamageCharacter(weapon.damage);
-            enemyani.SetTrigger("hitMotion");
-            if (enemy.Hitpoint <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
+            //enemyani.SetTrigger("hitMotion");
+            Debug.Log("Enemy공격" + weapon.damage);
+            isHit = true;
+            if (enemy.Enemy.startingHp <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
             {
                 enemyani.SetTrigger("death");
             }
         }
+        else
+        {
+            isHit = false;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+
 
     }
 
-    public void MeleeAttack()
+    public void PlayerMeleeAttack()
     {
         StopCoroutine(Attack());
         StartCoroutine(Attack());
     }
     IEnumerator Attack()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         AttackArea.enabled = true;
-        isHit = true;
         audiosouce.Play();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         AttackArea.enabled = false;
-        isHit = false;
         audiosouce.Stop();
 
     }

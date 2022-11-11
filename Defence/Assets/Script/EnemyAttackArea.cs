@@ -2,40 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackArea : Enemy
+public class EnemyAttackArea : MonoBehaviour
 {
     Animator anima;
 
-    public BoxCollider AttackArea;
+    public BoxCollider AttackPoint;
+    
     
     AudioSource audiosource;
+    EnemyController enemyController;
 
     bool attackReady;
-    float AttackSpeed = 3f;
+    float AttackSpeed = 5f;
     float AttackDelay;
     public bool isAttack;
     // Start is called before the first frame update
     void Start()
     {
         anima = GetComponentInParent<Animator>();
-        audiosource = GetComponentInParent<AudioSource>();
-    }
-    private void FixedUpdate()
-    {
-        AttackDelay += Time.deltaTime;
+        audiosource = GetComponent<AudioSource>();
+        enemyController = GetComponentInParent<EnemyController>();
     }
 
     private void OnTriggerStay(Collider other)
     {
+        AttackDelay += Time.deltaTime;
+
         attackReady = AttackSpeed < AttackDelay;
         if (other.transform.tag == "Player")
         {
-            
-            Debug.Log("target 공격");
-            
-            if (attackReady && !other.GetComponentInChildren<Weapon>().isHit && !isDeath)
+            anima.SetBool("isRun", false);
+            anima.SetBool("isWalk", false);
+            if (attackReady && !other.GetComponentInChildren<Weapon>().isHit && !enemyController.isDeath)
             {
-                MeleeAttack();
+                EnemyMeleeAttack();
                 anima.SetTrigger("Attrigger");
                 AttackDelay = 0;
                 audiosource.Play();
@@ -51,12 +51,11 @@ public class EnemyAttackArea : Enemy
         {
             Debug.Log("target 공격범위 빠져나감");
             isAttack = false;
-            target = other.transform;
         }
     }
 
 
-    public void MeleeAttack()
+    public void EnemyMeleeAttack()
     {
         StopCoroutine(Attack());
         StartCoroutine(Attack());
@@ -70,12 +69,11 @@ public class EnemyAttackArea : Enemy
     IEnumerator Attack()
     {
         yield return new WaitForSeconds(0.2f);
-        AttackArea.enabled = true;
+        AttackPoint.enabled = true;
         
 
         yield return new WaitForSeconds(0.2f);
-        AttackArea.enabled = false;
-
+        AttackPoint.enabled = false;
 
     }
     IEnumerator StopWalk()
