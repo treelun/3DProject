@@ -10,7 +10,7 @@ public class PlayerMove : Status
     Rigidbody rigid;
     Animator animator;
     Weapon Weapon;
-    WeaponData weaponData;
+    public WeaponData weaponData;
 
     public CharaterData player;
 
@@ -26,6 +26,7 @@ public class PlayerMove : Status
     public float Hitpoint;
     float attackCount;
     float attackTimeReset;
+    public float attackStamina;
 
     bool JumpButton;
     bool AttackButton;
@@ -39,7 +40,6 @@ public class PlayerMove : Status
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         Weapon = GetComponentInChildren<Weapon>();
-        weaponData = GetComponentInChildren<WeaponScriptAble>().weaponData;
     }
 
     private void FixedUpdate()
@@ -49,7 +49,7 @@ public class PlayerMove : Status
         Jump();
         Dodge();
         Attack();
-
+        Recovery();
     }
     void GetInput()
     {
@@ -62,15 +62,14 @@ public class PlayerMove : Status
 
     void playerMove()
     {
-
-        movement = new Vector3(deltaX, 0f, deltaZ);
-
-        movement = transform.TransformDirection(movement);
         if (!isAttackReady || isDodge || ishit)
         {
             movement = Vector3.zero;
         }
-        
+
+        movement = new Vector3(deltaX, 0f, deltaZ);
+
+        movement = transform.TransformDirection(movement);
 
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rotateSpeed, 0f, Space.World);
         if (deltaX != 0)
@@ -89,28 +88,26 @@ public class PlayerMove : Status
     }
     void Jump()
     {
-        if (JumpButton && !isJump)
+        if (JumpButton && !isJump && player.startingStamina > 20)
         {
             Debug.Log("점프");
             rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             isJump = true;
             animator.SetTrigger("JumpTrigger");
+            player.startingStamina -= attackStamina + 10f;
         }
     }
     void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isJump && movement != Vector3.zero)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isJump && !isDodge && player.startingStamina > 20)
         {
             animator.SetTrigger("dodgeleft");
-            isDodge = true;
             dodge.Play();
-            Invoke("DodgeOut", 0.5f);
+            StartCoroutine(playerDodge());
+            player.startingStamina -= attackStamina + 10f;
         }
     }
-    void DodgeOut()
-    {
-        isDodge = false;
-    }
+
 
     public void Attack()
     {
@@ -119,12 +116,12 @@ public class PlayerMove : Status
         isAttackReady = weaponData.attackSpeed < AttackDelay;
 
         attackTimeReset += Time.deltaTime;
-        if (AttackButton && isAttackReady && !ishit)
+        if (AttackButton && isAttackReady && !ishit && player.startingStamina > 5)
         {
             animator.SetTrigger("AttackTrigger");
 
             animator.SetFloat("AttackFloat", attackCount);
-
+            player.startingStamina -= attackStamina;
             attackCount++;
             
             //실질적인 공격실행 메서드
@@ -159,6 +156,7 @@ public class PlayerMove : Status
     public void ResetCharacter()
     {
         player.startingHp = startHp;
+        player.startingStamina = startSta;
     }
     private void OnEnable()
     {
@@ -170,7 +168,7 @@ public class PlayerMove : Status
 
         player.startingHp -= damage;
         animator.SetTrigger("hitMotion");
-        DamagedOut();
+        StartCoroutine(playerHit());
         if (player.startingHp <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
         {
             KillCharacter();
@@ -179,19 +177,44 @@ public class PlayerMove : Status
     }
     IEnumerator playerHit()
     {
-        yield return new WaitForSeconds(0.2f);
         ishit = true;
-
-        yield return new WaitForSeconds(0.2f);
+        gameObject.layer = 7;
+        yield return new WaitForSeconds(0.8f);
+        gameObject.layer = 6;
         ishit = false;
+        
+
     }
-    void DamagedOut()
+
+    IEnumerator playerDodge()
     {
-        StopCoroutine(playerHit());
-        StartCoroutine(playerHit());
+        gameObject.layer = 7;
+        isDodge = true;
+        yield return new WaitForSeconds(0.8f);
+        gameObject.layer = 6;
+        isDodge = false;
+    }
+    void Recovery()
+    {
+        StartCoroutine(Recover());
     }
 
+    IEnumerator Recover()
+    {
 
+        if (player.startingStamina < maxSta)
+        {
+            player.startingStamina += 10f * Time.deltaTime;
+        }
+        yield return new WaitForSeconds(10f);
+
+        if (player.startingHp < maxHp)
+        {
+            player.startingHp += 0.1f * Time.deltaTime;
+        }
+
+
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Ground")

@@ -2697,7 +2697,6 @@ MonoBehaviour:
   maxSta: 100
   eye: {fileID: 2077237216}
   wanderArea: {fileID: 1101172441}
-  Enemy: {fileID: 11400000, guid: 5f4f24e3e1226a645970e6b82595525a, type: 2}
   isHit: 0
   Hitpoint: 0
   isDeath: 0
@@ -3458,7 +3457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c700422af2099646a1c9f2679359c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: 5f4f24e3e1226a645970e6b82595525a, type: 2}
   HpBar: {fileID: 4453828360933601539}
   character: {fileID: 1066049049}
 --- !u!1 &6013999946202241060

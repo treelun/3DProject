@@ -12,7 +12,6 @@ public class EnemyController : Status
     Material material;
     public SphereCollider eye;
     public SphereCollider wanderArea;
-    public CharaterData Enemy;
 
     bool isWalk;
 
@@ -98,17 +97,17 @@ public class EnemyController : Status
     //재생성될때의 값들
     public void ResetCharacter()
     {
-        Enemy.startingHp = startHp;
+        Hitpoint = startHp;
         isDeath = false;
     }
 
     //실질적으로 데미지를 받는 메서드
     public void DamageCharacter(float damage)
     {
-        Enemy.startingHp -= damage;
+        Hitpoint -= damage;
         
         StartCoroutine(OnDamaged());
-        if (Enemy.startingHp <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
+        if (Hitpoint <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
         {
             isDeath = true;
             eye.enabled = false;
@@ -129,11 +128,13 @@ public class EnemyController : Status
     {
         material.color = Color.red;
         anima.SetTrigger("hitMotion");
-        yield return new WaitForSeconds(0.1f);
+        gameObject.layer = 18;
+        yield return new WaitForSeconds(0.2f);
 
-        if (Enemy.startingHp > 0)
+        if (Hitpoint > 0)
         {
-            material.color = new Color32(226, 214, 195, 255);
+            material.color = new Color32(226, 214, 195, 30);
+            gameObject.layer = 17;
         }
     }
 

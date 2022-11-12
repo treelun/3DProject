@@ -8,4 +8,5 @@ public class Status : MonoBehaviour
     public float startHp;
 
     public float maxSta;
+    public float startSta;
 }

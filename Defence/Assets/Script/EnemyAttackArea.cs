@@ -26,62 +26,35 @@ public class EnemyAttackArea : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        AttackDelay += Time.deltaTime;
-
-        attackReady = AttackSpeed < AttackDelay;
         if (other.transform.tag == "Player")
         {
             anima.SetBool("isRun", false);
             anima.SetBool("isWalk", false);
-            if (attackReady && !other.GetComponentInChildren<Weapon>().isHit && !enemyController.isDeath)
+            if (!other.GetComponentInChildren<Weapon>().isHit && !enemyController.isDeath && !isAttack)
             {
-                EnemyMeleeAttack();
-                anima.SetTrigger("Attrigger");
-                AttackDelay = 0;
+                Debug.Log("공격");
+                StartCoroutine(Attack());
+                anima.SetTrigger("attack");
                 audiosource.Play();
-                isAttack = true;
             }
 
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform.tag == "Player")
-        {
-            Debug.Log("target 공격범위 빠져나감");
-            isAttack = false;
-        }
-    }
 
-
-    public void EnemyMeleeAttack()
-    {
-        StopCoroutine(Attack());
-        StartCoroutine(Attack());
-    }
-
-    public void controlWalk()
-    {
-        StopCoroutine(StopWalk());
-        StartCoroutine(StopWalk());
-    }
     IEnumerator Attack()
     {
-        yield return new WaitForSeconds(0.2f);
-        AttackPoint.enabled = true;
-        
 
-        yield return new WaitForSeconds(0.2f);
+        AttackPoint.enabled = true;
+        isAttack = true;
+        
+        yield return new WaitForSeconds(0.7f);
+
         AttackPoint.enabled = false;
 
-    }
-    IEnumerator StopWalk()
-    {
-        yield return new WaitForSeconds(0.1f);
-        isAttack = true;
-
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         isAttack = false;
+
     }
+
 }

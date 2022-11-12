@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour
             //enemyani.SetTrigger("hitMotion");
             Debug.Log("Enemy공격" + weapon.damage);
             isHit = true;
-            if (enemy.Enemy.startingHp <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
+            if (enemy.Hitpoint <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
             {
                 enemyani.SetTrigger("death");
             }
@@ -35,11 +35,6 @@ public class Weapon : MonoBehaviour
             isHit = false;
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-
-
-    }
 
     public void PlayerMeleeAttack()
     {
@@ -48,11 +43,11 @@ public class Weapon : MonoBehaviour
     }
     IEnumerator Attack()
     {
-        yield return new WaitForSeconds(0.4f);
         AttackArea.enabled = true;
         audiosouce.Play();
 
         yield return new WaitForSeconds(0.4f);
+
         AttackArea.enabled = false;
         audiosouce.Stop();
 

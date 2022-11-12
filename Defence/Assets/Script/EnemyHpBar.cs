@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyHpBar : MonoBehaviour
 {
-    public CharaterData playerData;
     [SerializeField] Slider HpBar;
 
 
@@ -20,6 +19,6 @@ public class EnemyHpBar : MonoBehaviour
 
     private void Update()
     {
-        HpBar.value = playerData.startingHp / maxHp;
+        HpBar.value = character.Hitpoint / maxHp;
     }
 }
