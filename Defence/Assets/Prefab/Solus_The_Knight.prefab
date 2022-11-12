@@ -332,7 +332,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2695,6 +2695,7 @@ MonoBehaviour:
   maxHp: 100
   startHp: 100
   maxSta: 100
+  startSta: 0
   eye: {fileID: 2077237216}
   wanderArea: {fileID: 1101172441}
   isHit: 0

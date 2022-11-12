@@ -18,6 +18,8 @@ public class PlayerMove : Status
     public AudioSource LeftWalkAudio;
     public AudioSource dodge;
 
+    public ParticleSystem particle;
+
     Vector3 movement;
 
     float deltaX;
@@ -121,18 +123,18 @@ public class PlayerMove : Status
             animator.SetTrigger("AttackTrigger");
 
             animator.SetFloat("AttackFloat", attackCount);
+            
+            particle.GetComponent<ParticleSystem>().Play();
+    
+
             player.startingStamina -= attackStamina;
             attackCount++;
-            
+
             //실질적인 공격실행 메서드
             Weapon.PlayerMeleeAttack();
             AttackDelay = 0;
             attackTimeReset = 0;
 
-            //걷는사운드
-            RightWalkAudio.Stop();
-            LeftWalkAudio.Stop();
-            
            
             if (attackCount > 2)
             {
@@ -204,7 +206,7 @@ public class PlayerMove : Status
 
         if (player.startingStamina < maxSta)
         {
-            player.startingStamina += 10f * Time.deltaTime;
+            player.startingStamina += 15f * Time.deltaTime;
         }
         yield return new WaitForSeconds(10f);
 

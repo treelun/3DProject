@@ -6,7 +6,6 @@ public class SpawnPoint : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
     GameObject enemy;
-    public Transform target;
 
 
     // Update is called once per frame

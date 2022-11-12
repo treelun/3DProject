@@ -8,12 +8,14 @@ public class Weapon : MonoBehaviour
     AudioSource audiosouce;
 
     public BoxCollider AttackArea;
+    public ParticleSystem particleSystem;
     public bool isHit;
-    float delta;
+    
     private void Start()
     {
         weapon = GetComponent<WeaponScriptAble>().weaponData;
         audiosouce = GetComponent<AudioSource>();
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +26,7 @@ public class Weapon : MonoBehaviour
             enemy.DamageCharacter(weapon.damage);
             //enemyani.SetTrigger("hitMotion");
             Debug.Log("Enemy공격" + weapon.damage);
+            particleSystem.GetComponent<ParticleSystem>().Play();
             isHit = true;
             if (enemy.Hitpoint <= float.Epsilon) //float.Epsilon은 0보다 큰 가장 작은 양수의 값을 나타냄
             {
