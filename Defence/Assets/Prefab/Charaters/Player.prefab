@@ -4877,7 +4877,7 @@ MonoBehaviour:
   maxSta: 100
   startSta: 100
   moveSpeed: 6
-  rotateSpeed: 5
+  rotateSpeed: 0.4
   jumpPower: 8
   weaponData: {fileID: 11400000, guid: 6e66dc7ff711aa2478cb3b9bbdabe3b6, type: 2}
   player: {fileID: 11400000, guid: 82a8767be65f51141a70c45ef1d2e7c2, type: 2}

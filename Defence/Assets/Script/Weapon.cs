@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     public BoxCollider AttackArea;
     public ParticleSystem particleSystem;
     public bool isHit;
-    
+
     private void Start()
     {
         weapon = GetComponent<WeaponScriptAble>().weaponData;

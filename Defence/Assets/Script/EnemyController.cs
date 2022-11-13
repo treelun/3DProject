@@ -11,6 +11,7 @@ public class EnemyController : Status
     AudioSource audioSource;
     Material material;
     EtcItemContoller item;
+
     public SphereCollider eye;
     public SphereCollider wanderArea;
 
@@ -117,7 +118,7 @@ public class EnemyController : Status
             gameObject.layer = 18;
 
             
-            item.DropItem();
+            //item.DropItem();
         }
     }
 
