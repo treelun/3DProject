@@ -10,6 +10,7 @@ public class EnemyController : Status
     EnemyAttackArea enemyAttackArea;
     AudioSource audioSource;
     Material material;
+    EtcItemContoller item;
     public SphereCollider eye;
     public SphereCollider wanderArea;
 
@@ -36,6 +37,7 @@ public class EnemyController : Status
         audioSource = GetComponent<AudioSource>();
         material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         enemyEye = GetComponentInChildren<EnemyEye>();
+        item = GetComponentInChildren<EtcItemContoller>();
     }
     // Update is called once per frame
     void Update()
@@ -113,6 +115,9 @@ public class EnemyController : Status
             eye.enabled = false;
             wanderArea.enabled = false;
             gameObject.layer = 18;
+
+            
+            item.DropItem();
         }
     }
 

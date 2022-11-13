@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class SpinDeco : MonoBehaviour
 {
-    public float rotateSpeed = 250f;
-    // Start is called before the first frame update
-    void Start()
+/*    public enum SelectObject
     {
-        
+        item,
+        probs
     }
+
+    SelectObject selectObject = SelectObject.probs;*/
+    public float rotateSpeed = 20f;
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0, rotateSpeed, 0));
+        transform.Rotate(new Vector3(0f, 0, rotateSpeed * Time.deltaTime));
     }
+
 }

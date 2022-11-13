@@ -167,7 +167,6 @@ public class PlayerMove : Status
 
     public void DamageCharacter(float damage)
     {
-
         player.startingHp -= damage;
         animator.SetTrigger("hitMotion");
         StartCoroutine(playerHit());
@@ -175,7 +174,6 @@ public class PlayerMove : Status
         {
             KillCharacter();
         }
-        
     }
     IEnumerator playerHit()
     {
@@ -185,7 +183,6 @@ public class PlayerMove : Status
         gameObject.layer = 6;
         ishit = false;
         
-
     }
 
     IEnumerator playerDodge()
